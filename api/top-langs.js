@@ -113,37 +113,40 @@ export default async (req, res) => {
               hide_progress: parseBoolean(hide_progress),
             })}
 
-            <!-- Adiciona o drop-down para selecionar caixa alta ou caixa baixa -->
-            <label for="caseSelector">Escolha o formato do título:</label>
-            <select id="caseSelector">
-              <option value="uppercase">Caixa Alta</option>
-              <option value="lowercase">Caixa Baixa</option>
+            <!-- Adiciona o drop-down para selecionar o idioma -->
+            <label for="languageSelector">Escolha o idioma do título:</label>
+            <select id="languageSelector">
+              <option value="en">Inglês</option>
+              <option value="pt">Português</option>
             </select>
           </div>
 
           <!-- Script para manipular o SVG -->
           <script>
-            // Função para atualizar o título do langcard
-            function atualizarTextoCaixa() {
+            // Função para atualizar o título do langcard com base na seleção de idioma
+            function atualizarTituloIdioma() {
               // Seleciona o SVG
               const svg = document.querySelector('svg'); // Assume que o SVG é o único na página
                 
               // Seleciona o elemento <text> que representa o título (assumindo que é o primeiro elemento <text>)
               const titulo = svg.querySelector('text'); // Você pode ajustar o seletor se necessário
                 
-              // Verifica a seleção do drop-down (caixa alta ou caixa baixa)
-              const caseOption = document.getElementById('caseSelector').value;
+              // Verifica a seleção do drop-down (inglês ou português)
+              const languageOption = document.getElementById('languageSelector').value;
 
-              // Atualiza o título de acordo com a seleção
-              if (caseOption === 'uppercase') {
-                titulo.textContent = titulo.textContent.toUpperCase();
-              } else if (caseOption === 'lowercase') {
-                titulo.textContent = titulo.textContent.toLowerCase();
+              // Atualiza o título de acordo com a seleção de idioma
+              if (languageOption === 'en') {
+                titulo.textContent = "Most Used Languages";
+              } else if (languageOption === 'pt') {
+                titulo.textContent = "Linguagens Mais Usadas";
               }
             }
 
             // Adiciona o evento de mudança ao drop-down
-            document.getElementById('caseSelector').addEventListener('change', atualizarTextoCaixa);
+            document.getElementById('languageSelector').addEventListener('change', atualizarTituloIdioma);
+            
+            // Chama a função para atualizar o título ao carregar a página
+            atualizarTituloIdioma();
           </script>
         </body>
       </html>

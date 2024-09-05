@@ -112,7 +112,30 @@ export default async (req, res) => {
               disable_animations: parseBoolean(disable_animations),
               hide_progress: parseBoolean(hide_progress),
             })}
+
+            <!-- Adiciona o botão para transformar texto em caixa alta -->
+            <button id="uppercaseButton">Transformar Texto em Caixa Alta</button>
           </div>
+
+          <!-- Script para manipular o SVG -->
+          <script>
+            // Função para transformar os textos em caixa alta
+            function transformarCaixaAlta() {
+              // Seleciona o SVG pelo ID
+              const svg = document.querySelector('svg'); // Assume que o SVG é o único na página
+                
+              // Seleciona todos os elementos <text> dentro do SVG
+              const textosSVG = svg.querySelectorAll('text');
+                
+              // Percorre cada elemento de texto e transforma o conteúdo em letras maiúsculas
+              textosSVG.forEach(texto => {
+                texto.textContent = texto.textContent.toUpperCase();
+              });
+            }
+
+            // Adiciona o evento de clique ao botão
+            document.getElementById('uppercaseButton').addEventListener('click', transformarCaixaAlta);
+          </script>
         </body>
       </html>
     `);

@@ -113,28 +113,39 @@ export default async (req, res) => {
               hide_progress: parseBoolean(hide_progress),
             })}
 
-            <!-- Adiciona o botão para transformar texto em caixa alta -->
-            <button id="uppercaseButton">Transformar Texto em Caixa Alta</button>
+            <!-- Adiciona o drop-down para selecionar caixa alta ou caixa baixa -->
+            <label for="caseSelector">Escolha o formato do texto:</label>
+            <select id="caseSelector">
+              <option value="uppercase">Caixa Alta</option>
+              <option value="lowercase">Caixa Baixa</option>
+            </select>
           </div>
 
           <!-- Script para manipular o SVG -->
           <script>
-            // Função para transformar os textos em caixa alta
-            function transformarCaixaAlta() {
-              // Seleciona o SVG pelo ID
+            // Função para atualizar o texto de acordo com a seleção (caixa alta ou baixa)
+            function atualizarTextoCaixa() {
+              // Seleciona o SVG
               const svg = document.querySelector('svg'); // Assume que o SVG é o único na página
                 
               // Seleciona todos os elementos <text> dentro do SVG
               const textosSVG = svg.querySelectorAll('text');
                 
-              // Percorre cada elemento de texto e transforma o conteúdo em letras maiúsculas
+              // Verifica a seleção do drop-down (caixa alta ou caixa baixa)
+              const caseOption = document.getElementById('caseSelector').value;
+
+              // Atualiza o texto de acordo com a seleção
               textosSVG.forEach(texto => {
-                texto.textContent = texto.textContent.toUpperCase();
+                if (caseOption === 'uppercase') {
+                  texto.textContent = texto.textContent.toUpperCase();
+                } else if (caseOption === 'lowercase') {
+                  texto.textContent = texto.textContent.toLowerCase();
+                }
               });
             }
 
-            // Adiciona o evento de clique ao botão
-            document.getElementById('uppercaseButton').addEventListener('click', transformarCaixaAlta);
+            // Adiciona o evento de mudança ao drop-down
+            document.getElementById('caseSelector').addEventListener('change', atualizarTextoCaixa);
           </script>
         </body>
       </html>
@@ -163,132 +174,3 @@ export default async (req, res) => {
     `);
   }
 };
-
-
-/*import { renderTopLanguages } from "../src/cards/top-languages-card.js";
-import { blacklist } from "../src/common/blacklist.js";
-import {
-  clampValue,
-  CONSTANTS,
-  parseArray,
-  parseBoolean,
-  renderError,
-} from "../src/common/utils.js";
-import { fetchTopLanguages } from "../src/fetchers/top-languages-fetcher.js";
-import { isLocaleAvailable } from "../src/translations.js";
-
-export default async (req, res) => {
-  const {
-    username,
-    hide,
-    hide_title,
-    hide_border,
-    card_width,
-    title_color,
-    text_color,
-    bg_color,
-    theme,
-    cache_seconds,
-    layout,
-    langs_count,
-    exclude_repo,
-    size_weight,
-    count_weight,
-    custom_title,
-    locale,
-    border_radius,
-    border_color,
-    disable_animations,
-    hide_progress,
-  } = req.query;
-  res.setHeader("Content-Type", "image/svg+xml");
-
-  if (blacklist.includes(username)) {
-    return res.send(
-      renderError("Something went wrong", "This username is blacklisted", {
-        title_color,
-        text_color,
-        bg_color,
-        border_color,
-        theme,
-      }),
-    );
-  }
-
-  if (locale && !isLocaleAvailable(locale)) {
-    return res.send(renderError("Something went wrong", "Locale not found"));
-  }
-
-  if (
-    layout !== undefined &&
-    (typeof layout !== "string" ||
-      !["compact", "normal", "donut", "donut-vertical", "pie"].includes(layout))
-  ) {
-    return res.send(
-      renderError("Something went wrong", "Incorrect layout input"),
-    );
-  }
-
-  try {
-    const topLangs = await fetchTopLanguages(
-      username,
-      parseArray(exclude_repo),
-      size_weight,
-      count_weight,
-    );
-
-    let cacheSeconds = clampValue(
-      parseInt(cache_seconds || CONSTANTS.CARD_CACHE_SECONDS, 10),
-      CONSTANTS.SIX_HOURS,
-      CONSTANTS.ONE_DAY,
-    );
-    cacheSeconds = process.env.CACHE_SECONDS
-      ? parseInt(process.env.CACHE_SECONDS, 10) || cacheSeconds
-      : cacheSeconds;
-
-    res.setHeader(
-      "Cache-Control",
-      `max-age=${
-        cacheSeconds / 2
-      }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
-    );
-
-    return res.send(
-      renderTopLanguages(topLangs, {
-        custom_title,
-        hide_title: parseBoolean(hide_title),
-        hide_border: parseBoolean(hide_border),
-        card_width: parseInt(card_width, 10),
-        hide: parseArray(hide),
-        title_color,
-        text_color,
-        bg_color,
-        theme,
-        layout,
-        langs_count,
-        border_radius,
-        border_color,
-        locale: locale ? locale.toLowerCase() : null,
-        disable_animations: parseBoolean(disable_animations),
-        hide_progress: parseBoolean(hide_progress),
-      }),
-    );
-  } catch (err) {
-    res.setHeader(
-      "Cache-Control",
-      `max-age=${CONSTANTS.ERROR_CACHE_SECONDS / 2}, s-maxage=${
-        CONSTANTS.ERROR_CACHE_SECONDS
-      }, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
-    ); // Use lower cache period for errors.
-    return res.send(
-      renderError(err.message, err.secondaryMessage, {
-        title_color,
-        text_color,
-        bg_color,
-        border_color,
-        theme,
-      }),
-    );
-  }
-};
-*/

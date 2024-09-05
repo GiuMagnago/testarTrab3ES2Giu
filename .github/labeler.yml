@@ -28,15 +28,15 @@ dependencies:
           - package.json
           - package-lock.json
 
-lang-card:
-  - changed-files:
-      - any-glob-to-any-file:
-          - api/top-langs.js
-          - src/cards/top-languages-card.js
-          - src/fetchers/top-languages-fetcher.js
-          - tests/fetchTopLanguages.test.js
-          - tests/renderTopLanguagesCard.test.js
-          - tests/top-langs.test.js
+# lang-card:
+#   - changed-files:
+#       - any-glob-to-any-file:
+#           - api/top-langs.js
+#           - src/cards/top-languages-card.js
+#           - src/fetchers/top-languages-fetcher.js
+#           - tests/fetchTopLanguages.test.js
+#           - tests/renderTopLanguagesCard.test.js
+#           - tests/top-langs.test.js
 
 repo-card:
   - changed-files:

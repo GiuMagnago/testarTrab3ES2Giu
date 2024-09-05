@@ -116,8 +116,17 @@ export default async (req, res) => {
             <!-- Adiciona o drop-down para selecionar o idioma -->
             <label for="languageSelector">Escolha o idioma do título:</label>
             <select id="languageSelector">
-              <option value="en">Inglês</option>
-              <option value="pt">Português</option>
+              <option value="en">Inglês</option> <!-- Inglês -->
+              <option value="pt">Português</option> <!-- Português -->
+              <option value="fr">Francês</option> <!-- Francês -->
+              <option value="es">Espanhol</option> <!-- Espanhol -->
+              <option value="de">Alemão</option> <!-- Alemão -->
+              <option value="pl">Polonês</option> <!-- Polonês -->
+              <option value="ru">Russo</option> <!-- Russo -->
+              <option value="ar">Árabe</option> <!-- Árabe -->
+              <option value="ja">Japonês</option> <!-- Japonês -->
+              <option value="cn">Chinês</option> <!-- Chinês -->
+              <option value="np">Nepalês</option> <!-- Nepalês -->
             </select>
           </div>
 
@@ -137,8 +146,26 @@ export default async (req, res) => {
               // Atualiza o título de acordo com a seleção de idioma
               if (languageOption === 'en') {
                 titulo.textContent = "Most Used Languages";
-              } else if (languageOption === 'pt') {
+              } if (languageOption === 'pt') {
                 titulo.textContent = "Linguagens Mais Usadas";
+              } if (languageOption === 'fr') {
+                titulo.textContent = "Langages les plus utilisés";
+              } if (languageOption === 'es') {
+                titulo.textContent = "Lenguajes más usados";
+              } if (languageOption === 'de') {
+                titulo.textContent = "Meist verwendete Sprache";
+              } if (languageOption === 'pl') {
+                titulo.textContent = "Najczęściej używane języki";
+              } if (languageOption === 'ru') {
+                titulo.textContent = "Наиболее часто используемые языки";
+              } if (languageOption === 'ar') {
+                titulo.textContent = "أكثر اللغات إستخداماً";
+              } if (languageOption === 'ja') {
+                titulo.textContent = "最もよく使っている言語";
+              } if (languageOption === 'cn') {
+                titulo.textContent = "最常用的语言";
+              } if (languageOption === 'np') {
+                titulo.textContent = "अधिक प्रयोग गरिएको भाषाहरू";
               }
             }
 

@@ -863,14 +863,16 @@ const renderTopLanguages = (topLangs, options = {}) => {
     return card.render(finalLayout);
   }
 
-  return card.render(`
-    <html>
+  return (
+    `<html>
         <body>
-          <div>
+          <div>` +
+    card.render(`
     <svg data-testid="lang-items" x="${CARD_PADDING}">
       ${finalLayout}
     </svg>
-    <!-- Adiciona o drop-down para selecionar o idioma -->
+  `) +
+    `<!-- Adiciona o drop-down para selecionar o idioma -->
             <label for="languageSelector">Escolha o idioma:</label>
             <select id="languageSelector">
               <option value="en">Inglês</option> <!-- Inglês -->
@@ -933,8 +935,8 @@ const renderTopLanguages = (topLangs, options = {}) => {
             atualizarTituloIdioma();
           </script>
         </body>
-      </html>
-  `);
+      </html>`
+  );
 };
 
 export {

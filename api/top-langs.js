@@ -114,7 +114,7 @@ export default async (req, res) => {
             })}
 
             <!-- Adiciona o drop-down para selecionar o idioma -->
-            <label for="languageSelector">Escolha o idioma do título:</label>
+            <label for="languageSelector">Escolha o idioma:</label>
             <select id="languageSelector">
               <option value="en">Inglês</option> <!-- Inglês -->
               <option value="pt">Português</option> <!-- Português -->

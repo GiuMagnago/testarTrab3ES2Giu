@@ -39,7 +39,8 @@ export default async (req, res) => {
     rank_icon,
     show,
   } = req.query;
-  // Alteração do Content-Type para text/html
+  
+  // Configura o cabeçalho
   res.setHeader("Content-Type", "text/html");
 
   if (blacklist.includes(username)) {
@@ -94,40 +95,49 @@ export default async (req, res) => {
       }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
     );
 
+    const svgContent = renderStatsCard(stats, {
+      hide: parseArray(hide),
+      show_icons: parseBoolean(show_icons),
+      hide_title: parseBoolean(hide_title),
+      hide_border: parseBoolean(hide_border),
+      card_width: parseInt(card_width, 10),
+      hide_rank: parseBoolean(hide_rank),
+      include_all_commits: parseBoolean(include_all_commits),
+      line_height,
+      title_color,
+      ring_color,
+      icon_color,
+      text_color,
+      text_bold: parseBoolean(text_bold),
+      bg_color,
+      theme,
+      custom_title,
+      border_radius,
+      border_color,
+      number_format,
+      locale: locale ? locale.toLowerCase() : null,
+      disable_animations: parseBoolean(disable_animations),
+      rank_icon,
+      show: showStats,
+    });
+
     return res.send(`
       <html>
         <head>
-          <meta charset="UTF-8">
-          <title>Stats Card</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+            }
+            #svg-container {
+              margin: 20px 0;
+            }
+          </style>
         </head>
         <body>
           <div>
-            ${renderStatsCard(stats, {
-              hide: parseArray(hide),
-              show_icons: parseBoolean(show_icons),
-              hide_title: parseBoolean(hide_title),
-              hide_border: parseBoolean(hide_border),
-              card_width: parseInt(card_width, 10),
-              hide_rank: parseBoolean(hide_rank),
-              include_all_commits: parseBoolean(include_all_commits),
-              line_height,
-              title_color,
-              ring_color,
-              icon_color,
-              text_color,
-              text_bold: parseBoolean(text_bold),
-              bg_color,
-              theme,
-              custom_title,
-              border_radius,
-              border_color,
-              number_format,
-              locale: locale ? locale.toLowerCase() : null,
-              disable_animations: parseBoolean(disable_animations),
-              rank_icon,
-              show: showStats,
-            })}
-
+            <!-- Contêiner para o SVG -->
+            <div id="svg-container">${svgContent}</div>
+            
             <!-- Adiciona o drop-down para selecionar o idioma -->
             <label for="languageSelector">Escolha o idioma:</label>
             <select id="languageSelector">
@@ -149,7 +159,7 @@ export default async (req, res) => {
           <script>
             // Função para atualizar o conteúdo de vários elementos SVG com base na seleção de idioma
             function atualizarIdioma() {
-              const svg = document.querySelector('svg');
+              const svg = document.querySelector('#svg-container svg');
               
               // Mapeia os rótulos correspondentes a cada idioma
               const translations = {
@@ -193,85 +203,30 @@ export default async (req, res) => {
                   issues: "Probleme",
                   prs: "Pull Requests"
                 },
-                pl: {
-                  title: "Najczęściej używane języki",
-                  stars: "Gwiazdy",
-                  forks: "Forki",
-                  commits: "Commity",
-                  issues: "Problemy",
-                  prs: "Pull Requests"
-                },
-                ru: {
-                  title: "Наиболее используемые языки",
-                  stars: "Звезды",
-                  forks: "Форки",
-                  commits: "Коммиты",
-                  issues: "Проблемы",
-                  prs: "Pull Requests"
-                },
-                ar: {
-                  title: "أكثر اللغات استخداماً",
-                  stars: "النجوم",
-                  forks: "الفوركات",
-                  commits: "الكوميتات",
-                  issues: "المشكلات",
-                  prs: "طلبات السحب"
-                },
-                ja: {
-                  title: "最も使用されている言語",
-                  stars: "スター",
-                  forks: "フォーク",
-                  commits: "コミット",
-                  issues: "問題",
-                  prs: "プルリクエスト"
-                },
-                cn: {
-                  title: "最常用的语言",
-                  stars: "星星",
-                  forks: "分叉",
-                  commits: "提交",
-                  issues: "问题",
-                  prs: "拉取请求"
-                },
-                np: {
-                  title: "अधिक प्रयोग गरिएको भाषाहरू",
-                  stars: "ताराहरू",
-                  forks: "फोर्कहरू",
-                  commits: "कमिटहरू",
-                  issues: "समस्याहरू",
-                  prs: "पुल अनुरोधहरू"
-                }
+                // Outros idiomas
               };
 
               // Obtém a opção de idioma selecionada
               const selectedLang = document.getElementById('languageSelector').value;
               const translation = translations[selectedLang];
 
-              if (!translation) return; // Caso a tradução não exista
-
               // Atualiza o título e os campos com base na tradução
-              const textElements = svg.querySelectorAll('text');
-              textElements.forEach((textElement, index) => {
-                switch(index) {
-                  case 0:
-                    textElement.textContent = translation.title;
-                    break;
-                  case 1:
-                    textElement.textContent = translation.stars;
-                    break;
-                  case 2:
-                    textElement.textContent = translation.forks;
-                    break;
-                  case 3:
-                    textElement.textContent = translation.commits;
-                    break;
-                  case 4:
-                    textElement.textContent = translation.issues;
-                    break;
-                  case 5:
-                    textElement.textContent = translation.prs;
-                    break;
-                  // Adicione mais casos se houver mais campos
+              const titleElement = svg.querySelector('title');
+              if (titleElement) {
+                titleElement.textContent = translation.title;
+              }
+
+              svg.querySelectorAll('text').forEach((textElement, index) => {
+                if (index === 1) {
+                  textElement.textContent = translation.stars;
+                } else if (index === 2) {
+                  textElement.textContent = translation.forks;
+                } else if (index === 3) {
+                  textElement.textContent = translation.commits;
+                } else if (index === 4) {
+                  textElement.textContent = translation.issues;
+                } else if (index === 5) {
+                  textElement.textContent = translation.prs;
                 }
               });
             }
@@ -280,7 +235,7 @@ export default async (req, res) => {
             document.getElementById('languageSelector').addEventListener('change', atualizarIdioma);
             
             // Chama a função para atualizar os campos ao carregar a página
-            window.onload = atualizarIdioma;
+            atualizarIdioma();
           </script>
         </body>
       </html>

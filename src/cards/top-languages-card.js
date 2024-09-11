@@ -864,9 +864,76 @@ const renderTopLanguages = (topLangs, options = {}) => {
   }
 
   return card.render(`
+    <html>
+        <body>
+          <div>
     <svg data-testid="lang-items" x="${CARD_PADDING}">
       ${finalLayout}
     </svg>
+    <!-- Adiciona o drop-down para selecionar o idioma -->
+            <label for="languageSelector">Escolha o idioma:</label>
+            <select id="languageSelector">
+              <option value="en">Inglês</option> <!-- Inglês -->
+              <option value="pt">Português</option> <!-- Português -->
+              <option value="fr">Francês</option> <!-- Francês -->
+              <option value="es">Espanhol</option> <!-- Espanhol -->
+              <option value="de">Alemão</option> <!-- Alemão -->
+              <option value="pl">Polonês</option> <!-- Polonês -->
+              <option value="ru">Russo</option> <!-- Russo -->
+              <option value="ar">Árabe</option> <!-- Árabe -->
+              <option value="ja">Japonês</option> <!-- Japonês -->
+              <option value="cn">Chinês</option> <!-- Chinês -->
+              <option value="np">Nepalês</option> <!-- Nepalês -->
+            </select>
+          </div>
+
+          <!-- Script para manipular o SVG -->
+          <script>
+            // Função para atualizar o título do langcard com base na seleção de idioma
+            function atualizarTituloIdioma() {
+              // Seleciona o SVG
+              const svg = document.querySelector('svg'); // Assume que o SVG é o único na página
+                
+              // Seleciona o elemento <text> que representa o título (assumindo que é o primeiro elemento <text>)
+              const titulo = svg.querySelector('text'); // Você pode ajustar o seletor se necessário
+                
+              // Verifica a seleção do drop-down (inglês ou português)
+              const languageOption = document.getElementById('languageSelector').value;
+
+              // Atualiza o título de acordo com a seleção de idioma
+              if (languageOption === 'en') {
+                titulo.textContent = "Most Used Languages";
+              } if (languageOption === 'pt') {
+                titulo.textContent = "Linguagens Mais Usadas";
+              } if (languageOption === 'fr') {
+                titulo.textContent = "Langages les plus utilisés";
+              } if (languageOption === 'es') {
+                titulo.textContent = "Lenguajes más usados";
+              } if (languageOption === 'de') {
+                titulo.textContent = "Meist verwendete Sprache";
+              } if (languageOption === 'pl') {
+                titulo.textContent = "Najczęściej używane języki";
+              } if (languageOption === 'ru') {
+                titulo.textContent = "Наиболее часто используемые языки";
+              } if (languageOption === 'ar') {
+                titulo.textContent = "أكثر اللغات إستخداماً";
+              } if (languageOption === 'ja') {
+                titulo.textContent = "最もよく使っている言語";
+              } if (languageOption === 'cn') {
+                titulo.textContent = "最常用的语言";
+              } if (languageOption === 'np') {
+                titulo.textContent = "अधिक प्रयोग गरिएको भाषाहरू";
+              }
+            }
+
+            // Adiciona o evento de mudança ao drop-down
+            document.getElementById('languageSelector').addEventListener('change', atualizarTituloIdioma);
+            
+            // Chama a função para atualizar o título ao carregar a página
+            atualizarTituloIdioma();
+          </script>
+        </body>
+      </html>
   `);
 };
 

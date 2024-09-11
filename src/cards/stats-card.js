@@ -530,6 +530,9 @@ const renderStatsCard = (stats, options = {}) => {
   });
 
   return card.render(`
+    <html>
+        <body>
+          <div>
     ${rankCircle}
     <svg x="0" y="0">
       ${flexLayout({
@@ -538,6 +541,45 @@ const renderStatsCard = (stats, options = {}) => {
         direction: "column",
       }).join("")}
     </svg>
+    <!-- Adiciona o drop-down para selecionar o idioma -->
+            <label for="languageSelector" onload="checkLang()">Escolha o idioma:</label>
+            <select id="languageSelector">
+              <option value="" selected>Linguagem</option>
+              <option value="en">Inglês</option> <!-- Inglês -->
+              <option value="pt-br">Português</option> <!-- Português -->
+              <option value="fr">Francês</option> <!-- Francês -->
+              <option value="es">Espanhol</option> <!-- Espanhol -->
+              <option value="de">Alemão</option> <!-- Alemão -->
+              <option value="pl">Polonês</option> <!-- Polonês -->
+              <option value="ru">Russo</option> <!-- Russo -->
+              <option value="ar">Árabe</option> <!-- Árabe -->
+              <option value="ja">Japonês</option> <!-- Japonês -->
+              <option value="cn">Chinês</option> <!-- Chinês -->
+              <option value="np">Nepalês</option> <!-- Nepalês -->
+            </select>
+          </div>
+
+          <!-- Script para manipular o SVG -->
+          <script>            
+            // Função para atualizar o título do langcard com base na seleção de idioma
+            function atualizarIdioma() {
+              // Seleciona o SVG
+              const svg = document.querySelector('svg'); // Assume que o SVG é o único na página
+              const languageOption = document.getElementById('languageSelector').value;
+
+              if (languageOption !== "") {
+                // Recarrega a página com o novo idioma selecionado
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('locale', languageOption);
+                window.location.search = urlParams.toString();
+              }
+            }
+
+            // Adiciona o evento de mudança ao drop-down
+            document.getElementById('languageSelector').addEventListener('change', atualizarIdioma);
+          </script>
+        </body>
+      </html>
   `);
 };
 

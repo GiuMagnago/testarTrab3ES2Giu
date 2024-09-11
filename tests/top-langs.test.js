@@ -87,7 +87,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(renderTopLanguages(langs));
   });
 
@@ -111,7 +111,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(
       renderTopLanguages(langs, {
         hide_title: true,
@@ -138,7 +138,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(
       renderError(
         error.errors[0].message,
@@ -162,7 +162,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(
       renderError("Something went wrong", "Incorrect layout input"),
     );
@@ -182,7 +182,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(
       renderError("Something went wrong", "This username is blacklisted"),
     );
@@ -203,7 +203,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.send).toBeCalledWith(
       renderError("Something went wrong", "Locale not found"),
     );
@@ -223,7 +223,7 @@ describe("Test /api/top-langs", () => {
 
     await topLangs(req, res);
 
-    expect(res.setHeader).toBeCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toBeCalledWith("Content-Type", "text/html");
     expect(res.setHeader).toBeCalledWith(
       "Cache-Control",
       `max-age=${CONSTANTS.SIX_HOURS / 2}, s-maxage=${

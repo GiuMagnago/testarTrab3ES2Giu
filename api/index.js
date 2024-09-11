@@ -59,7 +59,7 @@ export default async (req, res) => {
   }
 
   if (locale && !isLocaleAvailable(locale)) {
-    return res.send(`<html><body>${renderError("Something went wrong", "Language not found")}</body></html>`);
+    return res.send(<html><body>${renderError("Something went wrong", "Language not found")}</body></html>);
   }
 
   try {
@@ -120,28 +120,27 @@ export default async (req, res) => {
               rank_icon,
               show: showStats,
             })}
-            
 
             <!-- Adiciona o drop-down para selecionar o idioma -->
-            <label for="languageSelector" onload="checkLang()">Escolha o idioma:</label>
+            <label for="languageSelector">Escolha o idioma:</label>
             <select id="languageSelector">
-              <option value="" selected>Linguagem</option>
-              <option value="en">Inglês</option> <!-- Inglês -->
+              <option value="" delected>Select</option>
+              <option value="en">English</option> <!-- Inglês -->
               <option value="pt-br">Português</option> <!-- Português -->
-              <option value="fr">Francês</option> <!-- Francês -->
-              <option value="es">Espanhol</option> <!-- Espanhol -->
-              <option value="de">Alemão</option> <!-- Alemão -->
-              <option value="pl">Polonês</option> <!-- Polonês -->
-              <option value="ru">Russo</option> <!-- Russo -->
-              <option value="ar">Árabe</option> <!-- Árabe -->
-              <option value="ja">Japonês</option> <!-- Japonês -->
-              <option value="cn">Chinês</option> <!-- Chinês -->
-              <option value="np">Nepalês</option> <!-- Nepalês -->
+              <option value="fr">Français</option> <!-- Francês -->
+              <option value="es">Español</option> <!-- Espanhol -->
+              <option value="de">Deutsch</option> <!-- Alemão -->
+              <option value="pl">Polski</option> <!-- Polonês -->
+              <option value="ru">Русский</option> <!-- Russo -->
+              <option value="ar">عربي</option> <!-- Árabe -->
+              <option value="ja">日本語</option> <!-- Japonês -->
+              <option value="cn">中國人</option> <!-- Chinês -->
+              <option value="np">नेपाली</option> <!-- Nepalês -->
             </select>
           </div>
 
           <!-- Script para manipular o SVG -->
-          <script>            
+          <script>
             // Função para atualizar o título do langcard com base na seleção de idioma
             function atualizarIdioma() {
               // Seleciona o SVG

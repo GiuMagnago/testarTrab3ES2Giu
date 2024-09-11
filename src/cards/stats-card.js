@@ -529,10 +529,12 @@ const renderStatsCard = (stats, options = {}) => {
     desc: labels,
   });
 
-  return card.render(`
-    <html>
-        <body>
-          <div>
+  return (
+    `
+  <html>
+  <body>
+  <div>` +
+    card.render(`
     ${rankCircle}
     <svg x="0" y="0">
       ${flexLayout({
@@ -541,7 +543,8 @@ const renderStatsCard = (stats, options = {}) => {
         direction: "column",
       }).join("")}
     </svg>
-    <!-- Adiciona o drop-down para selecionar o idioma -->
+  `) +
+    `<!-- Adiciona o drop-down para selecionar o idioma -->
             <label for="languageSelector" onload="checkLang()">Escolha o idioma:</label>
             <select id="languageSelector">
               <option value="" selected>Linguagem</option>
@@ -579,8 +582,8 @@ const renderStatsCard = (stats, options = {}) => {
             document.getElementById('languageSelector').addEventListener('change', atualizarIdioma);
           </script>
         </body>
-      </html>
-  `);
+      </html>`
+  );
 };
 
 export { renderStatsCard };

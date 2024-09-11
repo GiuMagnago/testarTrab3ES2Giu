@@ -93,33 +93,42 @@ export default async (req, res) => {
       }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
     );
 
-    return res.send(
-      renderStatsCard(stats, {
-        hide: parseArray(hide),
-        show_icons: parseBoolean(show_icons),
-        hide_title: parseBoolean(hide_title),
-        hide_border: parseBoolean(hide_border),
-        card_width: parseInt(card_width, 10),
-        hide_rank: parseBoolean(hide_rank),
-        include_all_commits: parseBoolean(include_all_commits),
-        line_height,
-        title_color,
-        ring_color,
-        icon_color,
-        text_color,
-        text_bold: parseBoolean(text_bold),
-        bg_color,
-        theme,
-        custom_title,
-        border_radius,
-        border_color,
-        number_format,
-        locale: locale ? locale.toLowerCase() : null,
-        disable_animations: parseBoolean(disable_animations),
-        rank_icon,
-        show: showStats,
-      }),
-    );
+    return res.send(`
+      <html>
+        <body>
+          <div>
+            ${renderStatsCard(stats, {
+              hide: parseArray(hide),
+              show_icons: parseBoolean(show_icons),
+              hide_title: parseBoolean(hide_title),
+              hide_border: parseBoolean(hide_border),
+              card_width: parseInt(card_width, 10),
+              hide_rank: parseBoolean(hide_rank),
+              include_all_commits: parseBoolean(include_all_commits),
+              line_height,
+              title_color,
+              ring_color,
+              icon_color,
+              text_color,
+              text_bold: parseBoolean(text_bold),
+              bg_color,
+              theme,
+              custom_title,
+              border_radius,
+              border_color,
+              number_format,
+              locale: locale ? locale.toLowerCase() : null,
+              disable_animations: parseBoolean(disable_animations),
+              rank_icon,
+              show: showStats,
+            })}
+
+          </div>
+
+
+        </body>
+      </html>
+    `);
   } catch (err) {
     res.setHeader(
       "Cache-Control",

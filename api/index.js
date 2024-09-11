@@ -39,7 +39,8 @@ export default async (req, res) => {
     rank_icon,
     show,
   } = req.query;
-  res.setHeader("Content-Type", "image/svg+xml");
+  // Alteração do Content-Type para text/html
+  res.setHeader("Content-Type", "text/html");
 
   if (blacklist.includes(username)) {
     return res.send(
@@ -95,6 +96,10 @@ export default async (req, res) => {
 
     return res.send(`
       <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Stats Card</title>
+        </head>
         <body>
           <div>
             ${renderStatsCard(stats, {
@@ -188,27 +193,85 @@ export default async (req, res) => {
                   issues: "Probleme",
                   prs: "Pull Requests"
                 },
-                // Outros idiomas
+                pl: {
+                  title: "Najczęściej używane języki",
+                  stars: "Gwiazdy",
+                  forks: "Forki",
+                  commits: "Commity",
+                  issues: "Problemy",
+                  prs: "Pull Requests"
+                },
+                ru: {
+                  title: "Наиболее используемые языки",
+                  stars: "Звезды",
+                  forks: "Форки",
+                  commits: "Коммиты",
+                  issues: "Проблемы",
+                  prs: "Pull Requests"
+                },
+                ar: {
+                  title: "أكثر اللغات استخداماً",
+                  stars: "النجوم",
+                  forks: "الفوركات",
+                  commits: "الكوميتات",
+                  issues: "المشكلات",
+                  prs: "طلبات السحب"
+                },
+                ja: {
+                  title: "最も使用されている言語",
+                  stars: "スター",
+                  forks: "フォーク",
+                  commits: "コミット",
+                  issues: "問題",
+                  prs: "プルリクエスト"
+                },
+                cn: {
+                  title: "最常用的语言",
+                  stars: "星星",
+                  forks: "分叉",
+                  commits: "提交",
+                  issues: "问题",
+                  prs: "拉取请求"
+                },
+                np: {
+                  title: "अधिक प्रयोग गरिएको भाषाहरू",
+                  stars: "ताराहरू",
+                  forks: "फोर्कहरू",
+                  commits: "कमिटहरू",
+                  issues: "समस्याहरू",
+                  prs: "पुल अनुरोधहरू"
+                }
               };
 
               // Obtém a opção de idioma selecionada
               const selectedLang = document.getElementById('languageSelector').value;
               const translation = translations[selectedLang];
 
+              if (!translation) return; // Caso a tradução não exista
+
               // Atualiza o título e os campos com base na tradução
-              svg.querySelectorAll('text').forEach((textElement, index) => {
-                if (index === 0) {
-                  textElement.textContent = translation.title;
-                } else if (index === 1) {
-                  textElement.textContent = translation.stars;
-                } else if (index === 2) {
-                  textElement.textContent = translation.forks;
-                } else if (index === 3) {
-                  textElement.textContent = translation.commits;
-                } else if (index === 4) {
-                  textElement.textContent = translation.issues;
-                } else if (index === 5) {
-                  textElement.textContent = translation.prs;
+              const textElements = svg.querySelectorAll('text');
+              textElements.forEach((textElement, index) => {
+                switch(index) {
+                  case 0:
+                    textElement.textContent = translation.title;
+                    break;
+                  case 1:
+                    textElement.textContent = translation.stars;
+                    break;
+                  case 2:
+                    textElement.textContent = translation.forks;
+                    break;
+                  case 3:
+                    textElement.textContent = translation.commits;
+                    break;
+                  case 4:
+                    textElement.textContent = translation.issues;
+                    break;
+                  case 5:
+                    textElement.textContent = translation.prs;
+                    break;
+                  // Adicione mais casos se houver mais campos
                 }
               });
             }
@@ -217,7 +280,7 @@ export default async (req, res) => {
             document.getElementById('languageSelector').addEventListener('change', atualizarIdioma);
             
             // Chama a função para atualizar os campos ao carregar a página
-            atualizarIdioma();
+            window.onload = atualizarIdioma;
           </script>
         </body>
       </html>
